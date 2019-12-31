@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Deployment.Application;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Diagnostics;
 
-[assembly: AssemblyVersion("1.0.0.3")]
-[assembly: AssemblyFileVersion("1.0.0.3")]
+[assembly: AssemblyVersion("1.0.0.4")]
+[assembly: AssemblyFileVersion("1.0.0.4")]
 namespace OneDrive_Backup
 {
     class Program
@@ -111,15 +105,7 @@ namespace OneDrive_Backup
         private static string[] buildDirectories(string path)
         {
             string[] preProc = File.ReadAllLines(path);
-            foreach(string s in preProc)
-            {
-                Console.WriteLine(s);
-            }
             string[] postProc = preProc.Where(x => x.ToArray().First().Equals('*') == false).ToArray();
-            foreach (string s in postProc)
-            {
-                Console.WriteLine(s);
-            }
             return postProc;
         }  
     }
