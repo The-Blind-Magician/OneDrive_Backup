@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Diagnostics;
 
-[assembly: AssemblyVersion("1.0.0.2")]
-[assembly: AssemblyFileVersion("1.0.0.2")]
+[assembly: AssemblyVersion("1.0.0.3")]
+[assembly: AssemblyFileVersion("1.0.0.3")]
 namespace OneDrive_Backup
 {
     class Program
@@ -36,6 +36,7 @@ namespace OneDrive_Backup
 
             foreach (string s in directories)
             {
+                Console.WriteLine($"Processing {s}");
                 DirectoryCopy(s, AppDomain.CurrentDomain.BaseDirectory + "\\" + s.Substring(s.LastIndexOf('\\')), true);
             }
             Console.WriteLine("\n\nTransfer Complete\n");
@@ -110,14 +111,14 @@ namespace OneDrive_Backup
         private static string[] buildDirectories(string path)
         {
             string[] preProc = File.ReadAllLines(path);
-            string[] postProc = { };
-
             foreach(string s in preProc)
             {
-                if (!s.ToArray().First().Equals('*'))
-                {
-                    postProc.Append(s);
-                }
+                Console.WriteLine(s);
+            }
+            string[] postProc = preProc.Where(x => x.ToArray().First().Equals('*') == false).ToArray();
+            foreach (string s in postProc)
+            {
+                Console.WriteLine(s);
             }
             return postProc;
         }  
