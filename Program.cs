@@ -110,16 +110,16 @@ namespace OneDrive_Backup
         private static string[] buildDirectories(string path)
         {
             string[] preProc = File.ReadAllLines(path);
-            List<string> postProc = new List<string>();
+            string[] postProc = { };
 
             foreach(string s in preProc)
             {
-                if(!s.Contains("*"))
+                if (!s.ToArray().First().Equals('*'))
                 {
                     postProc.Append(s);
                 }
             }
-            return (postProc.ToArray());
+            return postProc;
         }  
     }
 }
