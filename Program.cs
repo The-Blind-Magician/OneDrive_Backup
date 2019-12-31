@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Diagnostics;
 
-[assembly: AssemblyVersion("1.0.0.3")]
-[assembly: AssemblyFileVersion("1.0.0.3")]
+[assembly: AssemblyVersion("1.0.0.2")]
+[assembly: AssemblyFileVersion("1.0.0.2")]
 namespace OneDrive_Backup
 {
     class Program
