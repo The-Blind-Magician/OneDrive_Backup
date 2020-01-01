@@ -20,7 +20,7 @@ namespace OneDrive_Backup
             string txtVer;
             using (var ctxt = new WebClient())
             {
-                Uri uri = new Uri("https://github.com/The-Blind-Magician/OneDrive_Backup/raw/master/Version.txt");
+                Uri uri = new Uri("https://github.com/The-Blind-Magician/OneDrive_Backup/raw/no-Jekyll/Version.txt");
                 txtVer = ctxt.DownloadString(uri);
                 System.Threading.Thread.Sleep(500);
             }
@@ -49,7 +49,7 @@ namespace OneDrive_Backup
                     {
                         if (!File.Exists(exe1Path))
                         {
-                            Uri uri = new Uri("https://github.com/The-Blind-Magician/OneDrive_Backup/raw/master/bin/Debug/OneDrive_Backup.exe");
+                            Uri uri = new Uri("https://github.com/The-Blind-Magician/OneDrive_Backup/raw/no-Jekyll/bin/Debug/OneDrive_Backup.exe");
                             client.DownloadFile(uri, "OneDrive_Backup1.exe");
                         }
                         File.SetAttributes(exe1Path, FileAttributes.Normal);
