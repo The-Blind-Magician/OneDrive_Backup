@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-[assembly: AssemblyVersion("1.0.0.4")]
-[assembly: AssemblyFileVersion("1.0.0.4")]
+[assembly: AssemblyVersion("1.0.0.5")]
+[assembly: AssemblyFileVersion("1.0.0.5")]
 namespace OneDrive_Backup
 {
     class Program
@@ -18,8 +18,15 @@ namespace OneDrive_Backup
         
         static void Main()
         {
-            if (!Update.updateExecutable())
-                return;
+            try
+            {
+                if (!Update.updateExecutable())
+                    return;
+            }
+            catch
+            {
+                Console.WriteLine("No internet connection. Application will not be updated.");
+            }
             string[] directories;
             if (!File.Exists(directoryPaths))
             {
