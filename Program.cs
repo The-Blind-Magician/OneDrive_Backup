@@ -85,15 +85,21 @@ namespace OneDrive_Backup
             {                
                 try
                 {
-                    Console.Write($"\tRemoving {file.Name} ..... ");
-                    string temppath = Path.Combine(destDirName, file.Name);
-                    FileInfo temp = new FileInfo(temppath);
-                    temp.Delete();
-                    Console.Write("Complete\n");
-                    deleted++;
+                    Console.WriteLine($"Do you want to delete {file.Name}? y/n");
+                    if (Console.ReadKey().Equals('y'))
+                    {
+                        Console.Write($"\tRemoving {file.Name} ..... ");
+                        string temppath = Path.Combine(destDirName, file.Name);
+                        FileInfo temp = new FileInfo(temppath);
+                        temp.Delete();
+                        Console.Write("Complete\n");
+                        deleted++;
+                    }
+                    else 
+                    {
+                        Console.WriteLine("File will not be deleted");                        
+                    }
                     fileCount++;
-                    Console.ReadKey();
-                    
                 }
                 catch(Exception e)
                 {
