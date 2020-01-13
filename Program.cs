@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-[assembly: AssemblyVersion("1.0.0.5")]
-[assembly: AssemblyFileVersion("1.0.0.5")]
+[assembly: AssemblyVersion("1.0.0.6")]
+[assembly: AssemblyFileVersion("1.0.0.6")]
 namespace OneDrive_Backup
 {
     class Program
@@ -15,6 +15,7 @@ namespace OneDrive_Backup
         static UInt64 modCount = 0;
         static UInt64 unMod = 0;
         static UInt64 created = 0;
+        static UInt64 deleted = 0;
         
         static void Main()
         {
@@ -26,6 +27,7 @@ namespace OneDrive_Backup
             catch
             {
                 Console.WriteLine("No internet connection. Application will not be updated.");
+                System.Threading.Thread.Sleep(1000);
             }
             string[] directories;
             if (!File.Exists(directoryPaths))
@@ -45,6 +47,7 @@ namespace OneDrive_Backup
             Console.WriteLine($"       Modified: {modCount}");
             Console.WriteLine($"    Un-Modified: {unMod}");
             Console.WriteLine($"        Created: {created}");
+            Console.WriteLine($"        Deleted: {deleted}");
             Console.Read();
         }
 
@@ -69,7 +72,35 @@ namespace OneDrive_Backup
 
             // Get the files in the directory and copy them to the new location.
             FileInfo[] files = dir.GetFiles();
+            DirectoryInfo destDir = new DirectoryInfo(destDirName);
+            FileInfo[] destFiles = destDir.GetFiles();
             Console.WriteLine($"\nCopying Directory: {sourceDirName}");
+
+            String[] diffFileNames = files.Select(x => x.Name).ToArray();
+            
+            FileInfo[] diffFiles = destFiles.Where(x => !diffFileNames.Contains(x.Name)).ToArray(); //destFiles to str array and find all DNE files from  files
+            diffFiles = diffFiles.Where(x => (x.LastAccessTime.Date - DateTime.Now.Date.AddDays(-31)) < TimeSpan.FromDays(30)).ToArray();
+
+            foreach (FileInfo file in diffFiles)
+            {                
+                try
+                {
+                    Console.Write($"\tRemoving {file.Name} ..... ");
+                    string temppath = Path.Combine(destDirName, file.Name);
+                    FileInfo temp = new FileInfo(temppath);
+                    temp.Delete();
+                    Console.Write("Complete\n");
+                    deleted++;
+                    fileCount++;
+                    Console.ReadKey();
+                    
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e);
+                }                
+            }
+
             foreach (FileInfo file in files)
             {
                 Console.Write($"\tCopying {file.Name} ..... ");
