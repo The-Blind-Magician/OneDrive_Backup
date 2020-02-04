@@ -75,10 +75,8 @@ namespace OneDrive_Backup
             DirectoryInfo destDir = new DirectoryInfo(destDirName);
             FileInfo[] destFiles = destDir.GetFiles();
             Console.WriteLine($"\nCopying Directory: {sourceDirName}");
-
-            String[] diffFileNames = files.Select(x => x.Name).ToArray();
             
-            FileInfo[] diffFiles = destFiles.Where(x => !diffFileNames.Contains(x.Name)).ToArray(); //destFiles to str array and find all DNE files from  files
+            FileInfo[] diffFiles = destFiles.Where(x => !files.Select(z => z.Name).ToArray().Contains(x.Name)).ToArray(); //destFiles to str array and find all DNE files from files
             diffFiles = diffFiles.Where(x => (x.LastAccessTime.Date - DateTime.Now.Date.AddDays(-31)) < TimeSpan.FromDays(30)).ToArray();
 
             foreach (FileInfo file in diffFiles)
@@ -89,9 +87,7 @@ namespace OneDrive_Backup
                     if (Console.ReadKey().Equals('y'))
                     {
                         Console.Write($"\tRemoving {file.Name} ..... ");
-                        string temppath = Path.Combine(destDirName, file.Name);
-                        FileInfo temp = new FileInfo(temppath);
-                        temp.Delete();
+                        File.Delete(Path.Combine(destDirName, file.Name));
                         Console.Write("Complete\n");
                         deleted++;
                     }
